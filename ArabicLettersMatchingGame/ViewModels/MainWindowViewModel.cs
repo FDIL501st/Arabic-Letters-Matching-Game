@@ -1,8 +1,20 @@
-﻿namespace ArabicLettersMatchingGame.ViewModels;
+﻿using System;
+using ReactiveUI;
+
+namespace ArabicLettersMatchingGame.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-#pragma warning disable CA1822 // Mark members as static
     public string Greeting => "Welcome to Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
+    
+    // initially show MainMenuView
+    private ViewModelBase _contentViewModel = new MainMenuViewModel();
+    
+    // property used to access current viewmodel, thus view being used/shown
+    public ViewModelBase ContentViewModel
+    {
+        get => _contentViewModel;
+        private set => this.RaiseAndSetIfChanged(ref _contentViewModel, value);
+        // cause a notification to be generated every time the property changes value (ContentViewModel)
+    }
 }
