@@ -22,4 +22,13 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ArabicLettersMatchingGame\ArabicLettersMatchingGame.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AvaloniaResource Include="Assets\ArabicScipt.json" />
+      <AvaloniaResource Include="Assets\avalonia-logo.ico" />
+    </ItemGroup>
+
 </Project>

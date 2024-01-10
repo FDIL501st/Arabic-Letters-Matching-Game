@@ -10,7 +10,7 @@ public class MainWindowViewModel : ViewModelBase
     // initially show MainMenuView
     private ViewModelBase _contentViewModel = new MainMenuViewModel();
     
-    // property used to access current viewmodel, thus view being used/shown
+    // property used to access current viewmodel, thus the view being used/shown
     public ViewModelBase ContentViewModel
     {
         get => _contentViewModel;

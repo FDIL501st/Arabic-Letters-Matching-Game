@@ -8,8 +8,9 @@ namespace ArabicLettersMatchingGame.Services;
 
 public abstract class GetTextPairsStrategy
 {
-    private const string JsonFilePath = "../Assets/ArabicScript.json";
-    private FileStream? _jsonFs;
+    // Need to move 3 folders up from debug C# executable
+    private readonly string _jsonFilePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../Assets/ArabicScipt.json"));
+    protected FileStream? JsonFs;
     
     /**
      * Rules with managing _jsonFS.
@@ -21,12 +22,12 @@ public abstract class GetTextPairsStrategy
     /**
      * Opens the json file and returns a JsonDocument. Does not close the variable.
      */
-    private JsonDocument OpenJsonFile()
+    protected JsonDocument OpenJsonFile()
     {
         try
         {
             // first open json file as a filestream
-            _jsonFs = File.OpenRead(JsonFilePath);
+            JsonFs = File.OpenRead(_jsonFilePath);
         }
         catch (Exception e)
         {
@@ -35,7 +36,7 @@ public abstract class GetTextPairsStrategy
         }
         
         
-        return JsonDocument.Parse(_jsonFs);
+        return JsonDocument.Parse(JsonFs);
     }
 
     /**
@@ -47,11 +48,11 @@ public abstract class GetTextPairsStrategy
         var jsonDoc = OpenJsonFile();
         
         // check to make sure json file is open as function relies on that
-        if (_jsonFs == null) return new JsonData();
+        if (JsonFs == null) return new JsonData();
         
         
             
-        _jsonFs.Close();
+        JsonFs.Close();
 
         throw new NotImplementedException("GetJsonLetters() is not implemented.");
     }
