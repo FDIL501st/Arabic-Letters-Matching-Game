@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ArabicLettersMatchingGame.Services;
 
@@ -22,7 +20,7 @@ public abstract class GetTextPairsStrategy
     /**
      * Opens the json file and returns a JsonDocument. Does not close the variable.
      */
-    protected JsonDocument OpenJsonFile()
+    protected JsonElement OpenJsonFile()
     {
         try
         {
@@ -36,37 +34,61 @@ public abstract class GetTextPairsStrategy
         }
         
         
-        return JsonDocument.Parse(JsonFs);
+        return JsonDocument.Parse(JsonFs).RootElement;
     }
 
     /**
-     * Returns letters from json file.
+     * Gets letters[i] from the json file and returns as a string[]. Closes the file after use.
      */
-    protected JsonData GetArabicLetters()
+    protected string[] GetLetterArray(int i)
     {
-        // first need JsonDocument object
-        var jsonDoc = OpenJsonFile();
+        // first open the json file
+        var jsonRoot = OpenJsonFile();
         
-        // check to make sure json file is open as function relies on that
-        if (JsonFs == null) return new JsonData();
+        // need to do a check on i
+        var letterLen = jsonRoot.GetProperty("len_letters").GetUInt16();
         
+        // if i is out of bounds, then put it to nearest boundary index
+        if (i < 0) i = 0;
+        if (i >= letterLen) i = letterLen-1;
         
-            
-        JsonFs.Close();
-
-        throw new NotImplementedException("GetJsonLetters() is not implemented.");
+        // no need to check as json element exists cause file is made that way
+        var letterArrayElement = jsonRoot.GetProperty("letters")[i];
+        
+        // now deserialize it as a string[]
+        var letterArray = JsonSerializer.Deserialize<string[]>(letterArrayElement!.GetRawText());
+        
+        // close file as done with it now
+        JsonFs!.Close();
+        
+        return letterArray!;
     }
 
     /**
-     * Returns words from json file.
+     * Gets words[i] from the json file and returns as a string[]. Closes the file after use.
      */
-    protected JsonData GetArabicWords()
+    protected string[] GetWordArray(int i)
     {
-        throw new NotImplementedException("GetJsonWords() is not implemented.");
+        // first open the json file
+        var jsonRoot = OpenJsonFile();
+        
+        // need to do a check on i
+        var wordLen = jsonRoot.GetProperty("len_words").GetUInt16();
+        
+        // if i is out of bounds, then put it to nearest boundary index
+        if (i < 0) i = 0;
+        if (i >= wordLen) i = wordLen-1;
+        
+        // no need to check as json element exists cause file is made that way
+        var wordArrayElement = jsonRoot.GetProperty("words")[i]; 
+        
+        // now deserialize it as a string[]
+        var wordArray = JsonSerializer.Deserialize<string[]>(wordArrayElement!.GetRawText());
+        
+        // close file as done with it now
+        JsonFs!.Close();
+        
+        return wordArray!;
     }
 }
 
-public class JsonData
-{
-    public string[][]? Texts { get; set; }
-}
