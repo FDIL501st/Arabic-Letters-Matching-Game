@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using ArabicLettersMatchingGame.Models;
 
 namespace ArabicLettersMatchingGame.Services;
 
@@ -10,18 +12,28 @@ public abstract class GetTextPairsStrategy
     private readonly string _jsonFilePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../Assets/ArabicScipt.json"));
     protected FileStream? JsonFs;
     
-    /**
-     * Rules with managing _jsonFS.
-     * Use OpenJsonFile to start using _jsonFS.
-     * Once done with the file, make sure to close the file.
-     * Making variable null is not needed as long as you call OpenJsonFile before you start using file.
-     */
+    // variable for getting random number
+    protected Random Rng = new (10);
+    
+     // Rules with managing _jsonFS.
+     // Use OpenJsonFile to start using _jsonFS.
+     // Once done with the file, make sure to close the file.
+     // Making variable null is not needed as long as you call OpenJsonFile before you start using file.
+
+    
+     /**
+      * Makes a List of random TextPairs that can be used by the game views as text to show on the cards.
+      */
+     public abstract List<TextPair> GetRandomPairs();
 
     /**
      * Opens the json file and returns a JsonDocument. Does not close the variable.
      */
     protected JsonElement OpenJsonFile()
     {
+        // no need to try to open if already open
+        if (JsonFs is { CanRead: true }) return JsonDocument.Parse(JsonFs).RootElement;
+        
         try
         {
             // first open json file as a filestream
@@ -32,8 +44,8 @@ public abstract class GetTextPairsStrategy
             Console.WriteLine(e);
             throw;
         }
-        
-        
+
+
         return JsonDocument.Parse(JsonFs).RootElement;
     }
 
@@ -89,6 +101,15 @@ public abstract class GetTextPairsStrategy
         JsonFs!.Close();
         
         return wordArray!;
+    }
+
+    /**
+     * Factory function to create a TextPair given an array of texts, and two indexes.
+     * i1 and i2 have to be within the boundary of texts.
+     */
+    protected static TextPair CreateTextPairFromArray(string[] texts, int i1, int i2)
+    {
+        return new TextPair(texts[i1], texts[i2]);
     }
 }
 

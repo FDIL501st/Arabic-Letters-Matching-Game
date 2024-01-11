@@ -1,4 +1,5 @@
 using System.Text.Json;
+using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Services;
 
 namespace Tests;
@@ -45,7 +46,7 @@ public class TestGetTextPairStrategy
     // public void TestGetWordArray(int i, string[] expected)
     // {
     //     Assert.Equal(_testChild.TestChildGetWordArray(i), expected);
-    // }
+    // } 
 }
 
 /*
@@ -71,5 +72,10 @@ internal class GetTextPairsStrategyTestChild : GetTextPairsStrategy
     public string[] TestChildGetWordArray(int i)
     {
         return GetWordArray(i);
+    }
+
+    public override List<TextPair> GetRandomPairs()
+    {
+        throw new NotImplementedException();
     }
 }
