@@ -47,6 +47,31 @@ public class TestGetTextPairStrategy
     // {
     //     Assert.Equal(_testChild.TestChildGetWordArray(i), expected);
     // } 
+
+    [Fact]
+    public void TestEasyGetRandomPairs()
+    {
+        EasyGetTextPairsStrategy testEasy = new ();
+        
+        // attempt to get random pairs 10 times
+        for (var i = 0; i < 10; i++)
+        {
+            var randomPairs = testEasy.GetRandomPairs();
+        
+            // check size is 4 (this test can fail if change this, might wanna think about share global const)
+            Assert.Equal(4, randomPairs.Count);
+        
+            // check each TextPair is not null
+            foreach (var (text1, text2) in randomPairs)
+            {
+                Assert.NotNull(text1);
+                Assert.NotNull(text2);
+            
+                Assert.NotEqual("", text1);
+                Assert.NotEqual("", text2);
+            }
+        }
+    }
 }
 
 /*

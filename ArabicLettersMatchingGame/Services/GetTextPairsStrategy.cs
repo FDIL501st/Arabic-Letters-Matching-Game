@@ -31,8 +31,10 @@ public abstract class GetTextPairsStrategy
      */
     protected JsonElement OpenJsonFile()
     {
-        // no need to try to open if already open
-        if (JsonFs is { CanRead: true }) return JsonDocument.Parse(JsonFs).RootElement;
+        
+        // no need to try to open again if already opened
+        if (JsonFs is { CanRead: true })
+            return JsonDocument.Parse(JsonFs).RootElement;
         
         try
         {
