@@ -6,5 +6,17 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ArabicLettersMatchingGame.Views.MainMenuView"
              x:DataType="vm:MainWindowViewModel">
-    Welcome to Avalonia!
+<!-- Split view vertically 
+top 1/4 for title
+middle 2/4 for buttons to choose a game 
+bottom 1/4 empty whitespace-->
+
+<Grid RowDefinitions="*,2*,*">
+    <TextBlock Grid.Row="0" Margin="50" TextAlignment="Center">Choose a Difficulty!</TextBlock>
+    <StackPanel Grid.Row="1" Margin="50" HorizontalAlignment="Center">
+        <Button Margin="5" HorizontalAlignment="Stretch">Easy</Button>
+        <Button Margin="5" HorizontalAlignment="Stretch">Medium</Button>
+        <Button Margin="5" HorizontalAlignment="Stretch">Hard</Button>
+    </StackPanel>
+</Grid>
 </UserControl>
