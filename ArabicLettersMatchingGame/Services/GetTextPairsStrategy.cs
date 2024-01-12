@@ -10,8 +10,23 @@ public abstract class GetTextPairsStrategy
 {
     // Need to move 3 folders up from debug C# executable
     private readonly string _jsonFilePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../Assets/ArabicScipt.json"));
-    protected FileStream? JsonFs;
+    protected JsonElement JsonRoot;
     
+    // constructor to give value to JsonRoot, make protected as don't want to give ability to construct abstract class
+    protected GetTextPairsStrategy()
+    {
+        // set JsonRoot 
+        using (var jsonFs = File.OpenRead(_jsonFilePath))
+        {
+            using (var jsonDoc = JsonDocument.Parse(jsonFs))
+            {
+                JsonRoot = jsonDoc.RootElement.Clone();
+            }
+            
+        }
+        
+    }
+
     // variable for getting random number
     protected Random Rng = new (10);
     
@@ -25,55 +40,24 @@ public abstract class GetTextPairsStrategy
       * Makes a List of random TextPairs that can be used by the game views as text to show on the cards.
       */
      public abstract List<TextPair> GetRandomPairs();
-
-    /**
-     * Opens the json file and returns a JsonDocument. Does not close the variable.
-     */
-    protected JsonElement OpenJsonFile()
-    {
-        
-        // no need to try to open again if already opened
-        if (JsonFs is { CanRead: true })
-            return JsonDocument.Parse(JsonFs).RootElement;
-        
-        try
-        {
-            // first open json file as a filestream
-            JsonFs = File.OpenRead(_jsonFilePath);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-
-
-        return JsonDocument.Parse(JsonFs).RootElement;
-    }
-
+     
     /**
      * Gets letters[i] from the json file and returns as a string[]. Closes the file after use.
      */
     protected string[] GetLetterArray(int i)
     {
-        // first open the json file
-        var jsonRoot = OpenJsonFile();
-        
-        // need to do a check on i
-        var letterLen = jsonRoot.GetProperty("len_letters").GetUInt16();
+        // // need to do a check on i
+        var letterLen = JsonRoot.GetProperty("len_letters").GetUInt16();
         
         // if i is out of bounds, then put it to nearest boundary index
         if (i < 0) i = 0;
         if (i >= letterLen) i = letterLen-1;
         
         // no need to check as json element exists cause file is made that way
-        var letterArrayElement = jsonRoot.GetProperty("letters")[i];
+        var letterArrayElement = JsonRoot.GetProperty("letters")[i];
         
         // now deserialize it as a string[]
         var letterArray = JsonSerializer.Deserialize<string[]>(letterArrayElement!.GetRawText());
-        
-        // close file as done with it now
-        JsonFs!.Close();
         
         return letterArray!;
     }
@@ -83,24 +67,18 @@ public abstract class GetTextPairsStrategy
      */
     protected string[] GetWordArray(int i)
     {
-        // first open the json file
-        var jsonRoot = OpenJsonFile();
-        
         // need to do a check on i
-        var wordLen = jsonRoot.GetProperty("len_words").GetUInt16();
+        var wordLen = JsonRoot.GetProperty("len_words").GetUInt16();
         
         // if i is out of bounds, then put it to nearest boundary index
         if (i < 0) i = 0;
         if (i >= wordLen) i = wordLen-1;
         
         // no need to check as json element exists cause file is made that way
-        var wordArrayElement = jsonRoot.GetProperty("words")[i]; 
+        var wordArrayElement = JsonRoot.GetProperty("words")[i]; 
         
         // now deserialize it as a string[]
         var wordArray = JsonSerializer.Deserialize<string[]>(wordArrayElement!.GetRawText());
-        
-        // close file as done with it now
-        JsonFs!.Close();
         
         return wordArray!;
     }

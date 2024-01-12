@@ -15,12 +15,8 @@ public class EasyGetTextPairsStrategy : GetTextPairsStrategy
         // choose 4 letters (might want to make this a shared constant with view)
 
         const int numPairs = 4;
-        var lettersLen = OpenJsonFile().GetProperty("len_letters").GetUInt16();
+        var lettersLen = JsonRoot.GetProperty("len_letters").GetUInt16();
         
-        // move file back to beginning as will be parsing it again
-        // Parse function won't be able to recognize json file if pointer in middle
-        // after using the GetProperty function
-        JsonFs!.Seek(0, 0);
         
         for (var i = 0; i < numPairs; i++)
         {
