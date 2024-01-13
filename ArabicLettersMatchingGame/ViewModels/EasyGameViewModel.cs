@@ -1,14 +1,17 @@
+using ArabicLettersMatchingGame.Services;
+
 namespace ArabicLettersMatchingGame.ViewModels;
 
-public class EasyGameViewModel(MainMenuViewModel menuView) : ViewModelBase
+public class EasyGameViewModel(MainMenuViewModel menuView) : GameViewModel(menuView, new EasyGetTextPairsStrategy())
 {
-    // menuView in constructor used within class for return button
-
-    /*
-     * When press return button, change view back to menu.
-     */
+    
+    // add a timer updater?
+    
+    /// <summary>
+    /// When click return button, change view to menu view
+    /// </summary>
     public void ClickReturn()
     {
-        menuView.Window.ContentViewModel = menuView;
+        MenuView.Window.ContentViewModel = MenuView;
     }
 }
