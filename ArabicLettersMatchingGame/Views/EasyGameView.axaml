@@ -7,5 +7,16 @@
              x:Class="ArabicLettersMatchingGame.Views.EasyGameView"
              x:DataType="vm:EasyGameViewModel">
     
-    <Button Command="{Binding ClickReturn}">Return to Menu</Button>
+    <!-- Grid with 3 rows -->
+    <Grid Name="EasyGameGrid" RowDefinitions="*, 3*, *">
+        <!-- Bottom row has return to menu button -->
+        <Button Grid.Row="2" HorizontalAlignment="Center"
+                Command="{Binding ClickReturn}">Return to Menu</Button>
+        
+        <!-- Top row will have timer telling current time take for game -->
+        
+        <!-- Middle row will have actual cards -->
+        
+    </Grid>
+    
 </UserControl>
