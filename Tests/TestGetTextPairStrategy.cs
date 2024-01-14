@@ -38,7 +38,7 @@ public class TestGetTextPairStrategy
         {
             var randomPairs = testEasy.GetRandomPairs();
         
-            // chech ig got expencted number of pairs
+            // check if got expected number of pairs
             // which should be Easy*Easy/2
             Assert.Equal(Easy*Easy/2, randomPairs.Count);
         
