@@ -1,12 +1,12 @@
-using System.Text.Json;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Services;
+using static ArabicLettersMatchingGame.Models.Constants.GameBoardSizeNumber;
 
 namespace Tests;
 
 public class TestGetTextPairStrategy
 {
-    private GetTextPairsStrategyTestChild _testChild = new();
+    private readonly GetTextPairsStrategyTestChild _testChild = new();
     
     [Theory]
     [InlineData(1, new [] { "ﺏ", "ﺑ", "ﺐ", "ﺒ" })]
@@ -38,15 +38,16 @@ public class TestGetTextPairStrategy
         {
             var randomPairs = testEasy.GetRandomPairs();
         
-            // check size is 4 (this test can fail if change this, might wanna think about share global const)
-            Assert.Equal(4, randomPairs.Count);
+            // chech ig got expencted number of pairs
+            // which should be Easy*Easy/2
+            Assert.Equal(Easy*Easy/2, randomPairs.Count);
         
             // check each TextPair is not null
             foreach (var (text1, text2) in randomPairs)
             {
                 Assert.NotNull(text1);
                 Assert.NotNull(text2);
-            
+                
                 Assert.NotEqual("", text1);
                 Assert.NotEqual("", text2);
             }

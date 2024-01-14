@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using ArabicLettersMatchingGame.Models;
-using ArabicLettersMatchingGame.Models.Constants;
+using static ArabicLettersMatchingGame.Models.Constants.GameBoardSizeNumber;
 
 namespace ArabicLettersMatchingGame.Services;
 
@@ -9,7 +9,9 @@ public class EasyGetTextPairsStrategy : GetTextPairsStrategy
 {
     public override List<TextPair> GetRandomPairs()
     {
-        var textPairs = new List<TextPair>(GameMatchNumber.Easy);
+        var numPairs = Easy * Easy / 2;
+        
+        var textPairs = new List<TextPair>(numPairs);
         
         // this implementation will only read from letters
         // and will have use [0] of array chosen
@@ -18,7 +20,7 @@ public class EasyGetTextPairsStrategy : GetTextPairsStrategy
         var lettersLen = JsonRoot.GetProperty("len_letters").GetUInt16();
         
         
-        for (var i = 0; i < GameMatchNumber.Easy ; i++)
+        for (var i = 0; i < numPairs ; i++)
         {
             var letterArray = GetLetterArray(Rng.Next(lettersLen));
             textPairs.Add(CreateTextPairFromArray(letterArray, 0, Rng.Next(1, letterArray.Length)));

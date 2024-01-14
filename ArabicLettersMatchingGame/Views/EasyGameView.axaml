@@ -3,6 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:ArabicLettersMatchingGame.ViewModels"
+             xmlns:dt="using:ArabicLettersMatchingGame.Views.DataTemplates"
+             x:CompileBindings="True"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ArabicLettersMatchingGame.Views.EasyGameView"
              x:DataType="vm:EasyGameViewModel">
@@ -14,9 +16,16 @@
                 Command="{Binding ClickReturn}">Return to Menu</Button>
         
         <!-- Top row will have timer telling current time take for game -->
-        
+        <!-- For now a test of viewmodel -->
+        <TextBlock Grid.Row="0" Text="{Binding CardTexts[0]}"
+                   FontSize="40" TextAlignment="Center" HorizontalAlignment="Center"
+                   Padding="30"></TextBlock>
+                   
+
         <!-- Middle row will have actual cards -->
-        
+         <ContentControl Grid.Row="1" Content="{Binding CardTexts}" 
+                         ContentTemplate="{x:Static dt:DataTemplateProvider.EasyGameArea}">
+         </ContentControl>
     </Grid>
     
 </UserControl>
