@@ -16,10 +16,15 @@ public static class DataTemplateProvider
 
     private static Grid CreateEasyGrid(List<CardText> cardTexts)
     {
+        return CreateGrid(cardTexts, Easy);
+    }
+    
+    private static Grid CreateGrid(IReadOnlyList<CardText> cardTexts, int numSide)
+    {
         var gameGrid = new Grid();
         
         // Define the number of rows and columns based on the global constant GameMatchNumber.Easy
-        for (var i = 0; i < Easy; i++)
+        for (var i = 0; i < numSide; i++)
         {
             gameGrid.ColumnDefinitions.Add(new ColumnDefinition());
             gameGrid.RowDefinitions.Add(new RowDefinition());
@@ -31,8 +36,8 @@ public static class DataTemplateProvider
             var textBlock = new TextBlock();
             textBlock.Bind(TextBlock.TextProperty, new Binding(nameof(CardText.Text)) { Source = cardTexts[i] }); 
         
-            Grid.SetColumn(textBlock, i % Easy);
-            Grid.SetRow(textBlock, i / Easy);
+            Grid.SetColumn(textBlock, i % numSide);
+            Grid.SetRow(textBlock, i / numSide);
             gameGrid.Children.Add(textBlock);
         }
 
