@@ -27,8 +27,8 @@ public abstract class GetTextPairsStrategy
         
     }
 
-    // variable for getting random number
-    protected Random Rng = new (10);
+    // variable for getting random number, uses current microsecond for seed
+    protected readonly Random Rng = RNG.Rng;
     
      // Rules with managing _jsonFS.
      // Use OpenJsonFile to start using _jsonFS.
