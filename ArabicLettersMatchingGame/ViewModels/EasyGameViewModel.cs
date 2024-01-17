@@ -8,7 +8,7 @@ namespace ArabicLettersMatchingGame.ViewModels;
 
 public class EasyGameViewModel(MainMenuViewModel menuView) : GameViewModel(menuView, new EasyGetTextPairsStrategy())
 {
-    public sealed override FuncDataTemplate<List<CardText>> GameArea { get; } = new DataTemplateProvider().EasyGameArea;
+    public sealed override FuncDataTemplate<List<CardText>> GameArea { get; } = new EasyGameAreaDataTemplate().GameArea;
 
     // add a timer updater?
     

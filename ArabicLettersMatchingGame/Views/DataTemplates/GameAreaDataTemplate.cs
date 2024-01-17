@@ -5,26 +5,17 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
-using DynamicData;
 using static ArabicLettersMatchingGame.Models.Constants.GameBoardSizeNumber;
 
 namespace ArabicLettersMatchingGame.Views.DataTemplates;
 
-public class DataTemplateProvider
+public abstract class GameAreaDataTemplate
 {
-    public DataTemplateProvider()
-    {
-        EasyGameArea = new FuncDataTemplate<List<CardText>>(_ => true, CreateEasyGrid);
-    }
-
-    public FuncDataTemplate<List<CardText>> EasyGameArea { get; }
-
-    private Grid CreateEasyGrid(List<CardText> cardTexts)
-    {
-        return CreateGrid(cardTexts, Easy);
-    }
+    public abstract FuncDataTemplate<List<CardText>> GameArea { get; }
     
-    private Grid CreateGrid(IReadOnlyList<CardText> cardTexts, int numSide)
+    protected abstract Grid CreateGameArea(List<CardText> cardTexts);
+    
+    protected Grid CreateGrid(IReadOnlyList<CardText> cardTexts, int numSide)
     {
         var gameGrid = new Grid();
         
