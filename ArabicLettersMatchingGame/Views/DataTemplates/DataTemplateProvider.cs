@@ -4,22 +4,27 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
+using Avalonia.Layout;
+using DynamicData;
 using static ArabicLettersMatchingGame.Models.Constants.GameBoardSizeNumber;
 
 namespace ArabicLettersMatchingGame.Views.DataTemplates;
 
-public static class DataTemplateProvider
+public class DataTemplateProvider
 {
-    public static FuncDataTemplate<List<CardText>> EasyGameArea { get; }
-        = new(_ => true,
-        CreateEasyGrid);
+    public DataTemplateProvider()
+    {
+        EasyGameArea = new FuncDataTemplate<List<CardText>>(_ => true, CreateEasyGrid);
+    }
 
-    private static Grid CreateEasyGrid(List<CardText> cardTexts)
+    public FuncDataTemplate<List<CardText>> EasyGameArea { get; }
+
+    private Grid CreateEasyGrid(List<CardText> cardTexts)
     {
         return CreateGrid(cardTexts, Easy);
     }
     
-    private static Grid CreateGrid(IReadOnlyList<CardText> cardTexts, int numSide)
+    private Grid CreateGrid(IReadOnlyList<CardText> cardTexts, int numSide)
     {
         var gameGrid = new Grid();
         
@@ -33,12 +38,19 @@ public static class DataTemplateProvider
         // Populate the grid with TextBlocks bound to each CardText in cardTexts
         for (var i = 0; i < cardTexts.Count; i++)
         {
-            var textBlock = new TextBlock();
-            textBlock.Bind(TextBlock.TextProperty, new Binding(nameof(CardText.Text)) { Source = cardTexts[i] }); 
-        
-            Grid.SetColumn(textBlock, i % numSide);
-            Grid.SetRow(textBlock, i / numSide);
-            gameGrid.Children.Add(textBlock);
+            var card = new Button()
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center, 
+            };
+            card.Bind(ContentControl.ContentProperty, new Binding(nameof(CardText.Text)) { Source = cardTexts[i] });
+            ;
+            
+            Grid.SetColumn(card, i % numSide);
+            Grid.SetRow(card, i / numSide);
+            gameGrid.Children.Add(card);
         }
 
         gameGrid.ShowGridLines = true;

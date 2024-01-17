@@ -5,5 +5,6 @@
     &lt;TestId&gt;xUnit::B5E4C74D-07D6-449D-B4AA-7A609C3E7CF2::net8.0::Tests.TestGetTextPairStrategy.TestOpenJsonFile&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::B5E4C74D-07D6-449D-B4AA-7A609C3E7CF2::net8.0::Tests.TestGetTextPairStrategy.TestGetLetterArray&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::B5E4C74D-07D6-449D-B4AA-7A609C3E7CF2::net8.0::Tests.TestGetTextPairStrategy.TestEasyGetRandomPairs&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::B5E4C74D-07D6-449D-B4AA-7A609C3E7CF2::net8.0::Tests.TestGameViewModel.TestEasyGameCardTextsCount&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
