@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:ArabicLettersMatchingGame.ViewModels"
              x:CompileBindings="True"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="800"
              x:Class="ArabicLettersMatchingGame.Views.EasyGameView"
              x:DataType="vm:EasyGameViewModel">
     
@@ -23,7 +23,8 @@
 
         <!-- Middle row will have actual cards -->
          <ContentControl Grid.Row="1" Content="{Binding CardTexts}" 
-                         ContentTemplate="{Binding GameArea}">
+                         ContentTemplate="{Binding GameArea}"
+                         Margin="400, 0, 400, 0">
          </ContentControl>
     </Grid>
     

@@ -1,14 +1,31 @@
+using System;
 using System.Collections.Generic;
+using System.Reactive;
 using ArabicLettersMatchingGame.Models;
+using static ArabicLettersMatchingGame.Models.Constants.GameBoardSizeNumber;
 using ArabicLettersMatchingGame.Services;
 using ArabicLettersMatchingGame.Views.DataTemplates;
 using Avalonia.Controls.Templates;
+using ReactiveUI;
 
 namespace ArabicLettersMatchingGame.ViewModels;
 
-public class EasyGameViewModel(MainMenuViewModel menuView) : GameViewModel(menuView, new EasyGetTextPairsStrategy())
+public class EasyGameViewModel : GameViewModel
 {
-    public sealed override FuncDataTemplate<List<CardText>> GameArea { get; } = new EasyGameAreaDataTemplate().GameArea;
+    public sealed override FuncDataTemplate<List<CardText>> GameArea { get; }
+
+    protected sealed override ReactiveCommand<int, Unit> PressCardCommand { get; }
+    
+    public EasyGameViewModel(MainMenuViewModel menuView) : base(menuView, new EasyGetTextPairsStrategy())
+    {
+        // create command when press card
+        PressCardCommand = ReactiveCommand.Create(
+            (int num) => Console.WriteLine($"Press card {num}")
+            );
+            
+        GameArea = new EasyGameAreaDataTemplate(PressCardCommand).GameArea;
+    }
+
 
     // add a timer updater?
     

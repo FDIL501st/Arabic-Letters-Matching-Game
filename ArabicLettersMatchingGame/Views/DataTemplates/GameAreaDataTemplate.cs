@@ -1,18 +1,23 @@
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using System.Reactive;
 using ArabicLettersMatchingGame.Models;
+using ArabicLettersMatchingGame.Models.Constants;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
-using static ArabicLettersMatchingGame.Models.Constants.GameBoardSizeNumber;
+using ReactiveUI;
 
 namespace ArabicLettersMatchingGame.Views.DataTemplates;
 
-public abstract class GameAreaDataTemplate
+public abstract class GameAreaDataTemplate(ReactiveCommand<int, Unit> buttonCommands)
 {
     public abstract FuncDataTemplate<List<CardText>> GameArea { get; }
     
+    // holds the command for the buttons for each card
+    protected  ReactiveCommand<int, Unit> ButtonCommands { get; } = buttonCommands;
+
     protected abstract Grid CreateGameArea(List<CardText> cardTexts);
     
     protected Grid CreateGrid(IReadOnlyList<CardText> cardTexts, int numSide)
@@ -35,16 +40,18 @@ public abstract class GameAreaDataTemplate
                 VerticalAlignment = VerticalAlignment.Stretch,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center, 
+                Margin = Thickness.Parse("7"),
+                Command = ButtonCommands,
+                CommandParameter = i
             };
             card.Bind(ContentControl.ContentProperty, new Binding(nameof(CardText.Text)) { Source = cardTexts[i] });
-            ;
+            
             
             Grid.SetColumn(card, i % numSide);
             Grid.SetRow(card, i / numSide);
             gameGrid.Children.Add(card);
         }
-
-        gameGrid.ShowGridLines = true;
+        
         return gameGrid;
     }
 }
