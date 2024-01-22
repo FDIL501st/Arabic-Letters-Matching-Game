@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Reactive;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Services;
 using Avalonia.Controls.Templates;
+using ReactiveUI;
 
 namespace ArabicLettersMatchingGame.ViewModels;
 
@@ -20,4 +23,9 @@ public abstract class GameViewModel(MainMenuViewModel menuView, GetTextPairsStra
     
     // data template that handles the game/cards
     public abstract FuncDataTemplate<List<CardText>> GameArea { get; }
+
+    // the command for pressing a card 
+    protected ReactiveCommand<Unit, Unit> PressCardCommand { get; } = ReactiveCommand.Create(
+        () => Console.WriteLine("Pressed a card")
+    );
 }
