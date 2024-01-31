@@ -6,13 +6,12 @@ using ArabicLettersMatchingGame.Models.Constants;
 using Avalonia.Controls;
 using ReactiveUI;
 
-using static ArabicLettersMatchingGame.Models.Constants.GameBoardSizeNumber;
 
 namespace ArabicLettersMatchingGame.Views.DataTemplates;
 
 public class EasyGameAreaDataTemplate : GameAreaDataTemplate
 {
-    public EasyGameAreaDataTemplate(ReactiveCommand<int, Unit> buttonCommands) : base(buttonCommands)
+    public EasyGameAreaDataTemplate(List<Button> buttons, ReactiveCommand<int, Unit> buttonCommand) : base(buttons, buttonCommand)
     {
         GameArea = new FuncDataTemplate<List<CardText>>(_ => true, CreateGameArea);
     }
@@ -21,17 +20,6 @@ public class EasyGameAreaDataTemplate : GameAreaDataTemplate
 
     protected override Grid CreateGameArea(List<CardText> cardTexts)
     {
-        var easyGameArea = CreateGrid(cardTexts, Easy);
-
-        foreach (var child in easyGameArea.Children)
-        {
-            // change font size of each button
-            if (child is Button button)
-            {
-                button.FontSize = CardFontSize.Easy;
-            }
-        }
-        
-        return easyGameArea;
+        return  CreateGrid(cardTexts, GameBoardSizeNumber.Easy);
     }
 }

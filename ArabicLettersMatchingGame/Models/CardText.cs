@@ -9,7 +9,7 @@ namespace ArabicLettersMatchingGame.Models;
 /// </summary>
 /// <param name="Text">String shown on a card</param>
 /// <param name="Id">Id between matching cards is shared. 2 CardText with same Id are a pair.</param>
-public readonly record struct CardText(string Text, int Id)
+public record CardText(string Text, int Id)
 {
     // a factory function to create a list of CardText from a list of TextPair
 
