@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Reactive;
 using ArabicLettersMatchingGame.Models;
@@ -35,4 +34,9 @@ public abstract class GameViewModel : ViewModelBase
 
     // the command for pressing a card 
     protected abstract ReactiveCommand<int, Unit> PressCardCommand { get; }
+    
+    // list that holds selected cards
+    protected List<CardText> SelectedCards = new List<CardText>(2);
+
+    protected abstract void PressCommandFunction(int i);
 }

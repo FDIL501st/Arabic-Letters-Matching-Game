@@ -15,18 +15,22 @@ public class EasyGameViewModel : GameViewModel
     public sealed override FuncDataTemplate<List<CardText>> GameArea { get; }
 
     protected sealed override ReactiveCommand<int, Unit> PressCardCommand { get; }
-    
+
     public EasyGameViewModel(MainMenuViewModel menuView) : base(menuView, new EasyGetTextPairsStrategy())
     {
         // create command when press card
         PressCardCommand = ReactiveCommand.Create(
-            (int num) => Console.WriteLine($"Press card {num}")
+            (int num) => PressCommandFunction(num)
             );
             
         GameArea = new EasyGameAreaDataTemplate(PressCardCommand).GameArea;
     }
-
-
+    
+    protected override void PressCommandFunction(int i)
+    {
+        Console.WriteLine($"Press card {i}");
+    }
+    
     // add a timer updater?
     
     /// <summary>
