@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Reactive;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Services;
-using ArabicLettersMatchingGame.Views.DataTemplates;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using ReactiveUI;
@@ -46,12 +45,12 @@ public abstract class GameViewModel : ViewModelBase
     // the command for pressing a card 
     protected ReactiveCommand<int, Unit> PressCardCommand { get; }
     
-    // list that holds selected cards
-    protected List<CardText> SelectedCards = new List<CardText>(2);
+    // list that holds index selected cards
+    protected readonly List<int> SelectedCards = new(2);
 
     /// <summary>
     /// The function that gets executed when a card gets pressed.
     /// </summary>
-    /// <param name="i">The index of the button in the list of buttons.</param>
+    /// <param name="i">The index of the Card/CardText in the list of cards/card texts.</param>
     protected abstract void PressCommandFunction(int i);
 }

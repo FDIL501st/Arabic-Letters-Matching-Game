@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Reactive;
 using ArabicLettersMatchingGame.Models;
+using ArabicLettersMatchingGame.Models.Constants;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
@@ -71,7 +72,7 @@ public abstract class GameAreaDataTemplate(List<Button> buttons, ReactiveCommand
             HorizontalContentAlignment = HorizontalAlignment.Center,
             VerticalContentAlignment = VerticalAlignment.Center,
             Margin = Thickness.Parse(marginThickness),
-            FontSize = fontSize
+            FontSize = CardFontSize.Hidden
         };
     }
 }

@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Reactive;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Models.Constants;
 using ArabicLettersMatchingGame.Services;
 using ArabicLettersMatchingGame.Views.DataTemplates;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using ReactiveUI;
+using Timer = System.Timers.Timer;
 
 namespace ArabicLettersMatchingGame.ViewModels;
 
@@ -30,11 +29,42 @@ public class EasyGameViewModel : GameViewModel
     
     protected override void PressCommandFunction(int i)
     {
+        Console.WriteLine($"Press card: {Cards[i].Content}");
+        
         // first need to add card to selected, then make font visible
+        SelectedCards.Add(i);
         
+        Cards[i].FontSize = CardFontSize.Easy;
         
-        Console.WriteLine($"Press card {i}");
+        // if at the moment only selected 1 card, wait for second card to be selected
+        if (SelectedCards.Count == 1) return;
         
+        // second card selected
+        
+        // get index of selected cards
+        var card1Index = SelectedCards[0];
+        var card2Index = SelectedCards[1];
+        
+        // if both cards selected are not a match, simply make font small again after a bit
+        if (CardTexts[card1Index].Id != CardTexts[card2Index].Id )
+        {
+            // add a 1s wait before hiding text
+            
+            // hide text on cards
+            Cards[card1Index].FontSize = CardFontSize.Hidden;
+            Cards[card2Index].FontSize = CardFontSize.Hidden;
+        }
+        
+        // both cards are a match, so disable cards
+        else
+        {
+            Cards[card1Index].IsEnabled = false;
+            Cards[card2Index].IsEnabled = false;
+        }
+        
+        // remove both from selected
+        SelectedCards.RemoveAll((_) => true);
+
     }
     
     // add a timer updater?
