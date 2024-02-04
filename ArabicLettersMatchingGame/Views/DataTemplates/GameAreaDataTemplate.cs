@@ -1,9 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Reactive;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Models.Constants;
 using Avalonia;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
+using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
@@ -16,12 +21,15 @@ public abstract class GameAreaDataTemplate(List<Button> buttons, ReactiveCommand
     public abstract FuncDataTemplate<List<CardText>> GameArea { get; }
     
     // holds all buttons, initialized in child class as number of buttons not known
-    public List<Button> Buttons { get; } = buttons;
+    private List<Button> Buttons { get; } = buttons;
     
     // holds the command for the buttons for each card
     private ReactiveCommand<int, Unit> ButtonCommands { get; } = buttonCommand;
 
+    // the transition for button font size
 
+
+    
     protected abstract Grid CreateGameArea(List<CardText> cardTexts);
     
     protected Grid CreateGrid(IReadOnlyList<CardText> cardTexts, int numSide)
@@ -72,7 +80,11 @@ public abstract class GameAreaDataTemplate(List<Button> buttons, ReactiveCommand
             HorizontalContentAlignment = HorizontalAlignment.Center,
             VerticalContentAlignment = VerticalAlignment.Center,
             Margin = Thickness.Parse(marginThickness),
-            FontSize = CardFontSize.Hidden
+            FontSize = CardFontSize.Hidden,
+            Transitions = new Transitions
+            {
+                // view model will add transition
+            }
         };
     }
 }
