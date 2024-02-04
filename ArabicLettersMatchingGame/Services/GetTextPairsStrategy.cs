@@ -42,7 +42,7 @@ public abstract class GetTextPairsStrategy
      public abstract List<TextPair> GetRandomPairs();
      
     /**
-     * Gets letters[i] from the json file and returns as a string[]. Closes the file after use.
+     * Gets letters[i] from the json file and returns as a string[]. 
      */
     protected string[] GetLetterArray(int i)
     {

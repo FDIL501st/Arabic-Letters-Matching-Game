@@ -53,6 +53,7 @@ public abstract class GameViewModel : ViewModelBase
     protected static DoubleTransition FontSizeTransition = new()
     {
         Duration = TimeSpan.FromSeconds(1),
+        Easing = new LinearEasing(),
         Property = TemplatedControl.FontSizeProperty
     };
     
