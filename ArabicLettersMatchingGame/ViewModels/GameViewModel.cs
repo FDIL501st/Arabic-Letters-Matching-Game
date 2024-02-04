@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Reactive;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Services;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using ReactiveUI;
 
@@ -44,6 +48,14 @@ public abstract class GameViewModel : ViewModelBase
 
     // the command for pressing a card 
     protected ReactiveCommand<int, Unit> PressCardCommand { get; }
+    
+    // transition for font size change
+    protected static DoubleTransition FontSizeTransition = new()
+    {
+        Duration = TimeSpan.FromSeconds(1),
+        Property = TemplatedControl.FontSizeProperty
+    };
+    
     
     // list that holds index selected cards
     protected readonly List<int> SelectedCards = new(2);

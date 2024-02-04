@@ -1,11 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Models.Constants;
 using ArabicLettersMatchingGame.Services;
 using ArabicLettersMatchingGame.Views.DataTemplates;
+using Avalonia;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using DynamicData.Kernel;
+using ReactiveUI;
 using Timer = System.Timers.Timer;
 
 namespace ArabicLettersMatchingGame.ViewModels;
@@ -17,11 +24,13 @@ public class EasyGameViewModel : GameViewModel
 
     public EasyGameViewModel(MainMenuViewModel menuView) : base(menuView, new EasyGetTextPairsStrategy())
     {
+        
         // create card looks
         Cards = new List<Button>(GameBoardSizeNumber.Easy * GameBoardSizeNumber.Easy);
         for (var i = 0; i < GameBoardSizeNumber.Easy * GameBoardSizeNumber.Easy; i++)
         {
             Cards.Add(GameAreaDataTemplate.CreateButton("7", CardFontSize.Easy));
+            Cards[i].Transitions!.Add(FontSizeTransition);
         }
         
         GameArea = new EasyGameAreaDataTemplate(Cards, PressCardCommand).GameArea;
@@ -29,7 +38,7 @@ public class EasyGameViewModel : GameViewModel
     
     protected override void PressCommandFunction(int i)
     {
-        Console.WriteLine($"Press card: {Cards[i].Content}");
+        // Console.WriteLine($"Press card: {Cards[i].Content}");
         
         // first need to add card to selected, then make font visible
         SelectedCards.Add(i);
@@ -41,6 +50,9 @@ public class EasyGameViewModel : GameViewModel
         
         // second card selected
         
+        // add delay
+        FontSizeTransition.Delay = TimeSpan.FromSeconds(1);
+        
         // get index of selected cards
         var card1Index = SelectedCards[0];
         var card2Index = SelectedCards[1];
@@ -48,9 +60,7 @@ public class EasyGameViewModel : GameViewModel
         // if both cards selected are not a match, simply make font small again after a bit
         if (CardTexts[card1Index].Id != CardTexts[card2Index].Id )
         {
-            // add a 1s wait before hiding text
-            
-            // hide text on cards
+            // hide text of cards
             Cards[card1Index].FontSize = CardFontSize.Hidden;
             Cards[card2Index].FontSize = CardFontSize.Hidden;
         }
@@ -64,7 +74,8 @@ public class EasyGameViewModel : GameViewModel
         
         // remove both from selected
         SelectedCards.RemoveAll((_) => true);
-
+        // make delay 0 again
+        FontSizeTransition.Delay = TimeSpan.Zero;
     }
     
     // add a timer updater?
