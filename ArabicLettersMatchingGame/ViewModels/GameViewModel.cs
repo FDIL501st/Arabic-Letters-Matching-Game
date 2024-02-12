@@ -50,10 +50,10 @@ public abstract class GameViewModel : ViewModelBase
     protected ReactiveCommand<int, Unit> PressCardCommand { get; }
     
     // transition for font size change
-    protected static DoubleTransition FontSizeTransition = new()
+    protected static readonly DoubleTransition FontSizeTransition = new()
     {
         Duration = TimeSpan.FromSeconds(1),
-        Easing = new LinearEasing(),
+        Easing = new ExponentialEaseOut(),
         Property = TemplatedControl.FontSizeProperty
     };
     

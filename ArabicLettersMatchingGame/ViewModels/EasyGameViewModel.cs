@@ -1,19 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Models.Constants;
 using ArabicLettersMatchingGame.Services;
 using ArabicLettersMatchingGame.Views.DataTemplates;
-using Avalonia;
-using Avalonia.Animation;
-using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
-using DynamicData.Kernel;
-using ReactiveUI;
-using Timer = System.Timers.Timer;
 
 namespace ArabicLettersMatchingGame.ViewModels;
 
@@ -44,11 +37,24 @@ public class EasyGameViewModel : GameViewModel
         SelectedCards.Add(i);
         
         Cards[i].FontSize = CardFontSize.Easy;
-        
-        // if at the moment only selected 1 card, wait for second card to be selected
-        if (SelectedCards.Count == 1) return;
+
+        switch (SelectedCards.Count)
+        {
+            // if at the moment only selected 1 card, wait for second card to be selected
+            case 1:
+            case > 2:
+                return;
+            // both cases where 1 card or more than 1 card, stop 
+        }
         
         // second card selected
+        
+        // add a check so double clicking the same card does nothing
+        if (SelectedCards[0] == SelectedCards[1])
+        {
+            SelectedCards.RemoveAt(1);
+            return;
+        }
         
         // add delay
         FontSizeTransition.Delay = TimeSpan.FromSeconds(1);
@@ -72,7 +78,7 @@ public class EasyGameViewModel : GameViewModel
             Cards[card2Index].IsEnabled = false;
         }
         
-        // remove both from selected
+        // remove all cards from Selected
         SelectedCards.RemoveAll((_) => true);
         // make delay 0 again
         FontSizeTransition.Delay = TimeSpan.Zero;
