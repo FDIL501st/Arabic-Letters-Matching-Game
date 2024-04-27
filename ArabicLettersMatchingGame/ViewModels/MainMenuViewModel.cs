@@ -17,5 +17,10 @@ public class MainMenuViewModel(MainWindowViewModel window) : ViewModelBase
     {
         Window.ContentViewModel = new EasyGameViewModel(this);
     }
+
+    public void ClickEasyPractice()
+    {
+        Window.ContentViewModel = new EasyGameViewModel(this, true);
+    }
     
 }

@@ -20,13 +20,17 @@ public abstract class GameViewModel : ViewModelBase
 {
     // reference to MenuViewModel so can change view back to menu
     protected readonly MainMenuViewModel MenuView;
-
+    
+    // flag if game is in practice mode or not
+    public bool PracticeFlag { get; init; }
+    
     /// <summary>
     /// Parent class for GameViewModels.
     /// Provides common constructor and variables.
     /// </summary>
-    protected GameViewModel(MainMenuViewModel menuView, GetTextPairsStrategy getTextPairService)
+    protected GameViewModel(MainMenuViewModel menuView, GetTextPairsStrategy getTextPairService, bool practiceFlag = false)
     {
+        PracticeFlag = practiceFlag;
         MenuView = menuView;
         CardTexts = CardText.GenerateGameCardTexts(getTextPairService.GetRandomPairs());
         
@@ -54,7 +58,7 @@ public abstract class GameViewModel : ViewModelBase
     {
         Duration = TimeSpan.FromSeconds(1),
         Easing = new ExponentialEaseOut(),
-        Property = TemplatedControl.FontSizeProperty
+        Property = TemplatedControl.FontSizeProperty,
     };
     
     

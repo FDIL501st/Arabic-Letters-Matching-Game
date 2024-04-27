@@ -12,6 +12,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
+using Avalonia.Media;
 using ReactiveUI;
 
 namespace ArabicLettersMatchingGame.Views.DataTemplates;
@@ -71,6 +72,7 @@ public abstract class GameAreaDataTemplate(List<Button> buttons, ReactiveCommand
     }
     
     // factory function to create a generic button for use within the GameAreaDataTemplate
+    // fontSize 0 means cards initially should be hidden
     public static Button CreateButton(string marginThickness, int fontSize)
     {
         return new Button()
@@ -80,7 +82,8 @@ public abstract class GameAreaDataTemplate(List<Button> buttons, ReactiveCommand
             HorizontalContentAlignment = HorizontalAlignment.Center,
             VerticalContentAlignment = VerticalAlignment.Center,
             Margin = Thickness.Parse(marginThickness),
-            FontSize = CardFontSize.Hidden,
+            FontSize = (fontSize == 0) ? CardFontSize.Hidden : fontSize,
+            FontWeight = FontWeight.Regular,
             Transitions = new Transitions
             {
                 // view model will add transition

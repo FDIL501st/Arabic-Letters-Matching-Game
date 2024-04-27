@@ -16,7 +16,7 @@
         
         <!-- Top row will have timer telling current time take for game -->
         <!-- For now a test of viewmodel -->
-        <TextBlock Grid.Row="0" Text="{Binding CardTexts[0]}"
+        <TextBlock Grid.Row="0" Text="{Binding PracticeFlag}"
                    FontSize="40" TextAlignment="Center" HorizontalAlignment="Center"
                    Padding="30"/>
                    
