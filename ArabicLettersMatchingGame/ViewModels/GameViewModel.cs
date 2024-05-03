@@ -21,9 +21,6 @@ public abstract class GameViewModel : ViewModelBase
     // reference to MenuViewModel so can change view back to menu
     protected readonly MainMenuViewModel MenuView;
     
-    // flag if game is in practice mode or not
-    public bool PracticeFlag { get; init; }
-    
     /// <summary>
     /// Parent class for GameViewModels.
     /// Provides common constructor and variables.
@@ -40,6 +37,14 @@ public abstract class GameViewModel : ViewModelBase
         );
         
     }
+    // flag if game is in practice mode or not
+    public bool PracticeFlag { get; init; }
+    
+    // max number of pairs to make 
+    public abstract int NumPairs { get; init; }
+    
+    // numbers of pairs made, initially start at 0
+    public int PairsMade { get; set; } = 0;
     
     // list of buttons that are used for the game area
     public abstract List<Button> Cards { get; init; }

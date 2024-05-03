@@ -6,7 +6,6 @@ using ArabicLettersMatchingGame.Services;
 using ArabicLettersMatchingGame.Views.DataTemplates;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Avalonia.Media;
 
 namespace ArabicLettersMatchingGame.ViewModels;
 
@@ -15,12 +14,20 @@ public class EasyGameViewModel : GameViewModel
     public sealed override List<Button> Cards { get; init; }
     public sealed override FuncDataTemplate<List<CardText>> GameArea { get; }
 
+    public sealed override int NumPairs { get; init; }
+
     public EasyGameViewModel(MainMenuViewModel menuView, bool practiceFlag = false) 
         : base(menuView, new EasyGetTextPairsStrategy(), practiceFlag)
     {
+
+        int numCards = GameBoardSizeNumber.Easy * GameBoardSizeNumber.Easy;
+        
+        // numbers of pairs to make for an easy game is
+        NumPairs =  numCards / 2;
+        
         // create card looks
-        Cards = new List<Button>(GameBoardSizeNumber.Easy * GameBoardSizeNumber.Easy);
-        for (var i = 0; i < GameBoardSizeNumber.Easy * GameBoardSizeNumber.Easy; i++)
+        Cards = new List<Button>(numCards);
+        for (var i = 0; i < numCards; i++)
         {
             if (!PracticeFlag)
             {
@@ -94,6 +101,9 @@ public class EasyGameViewModel : GameViewModel
         {
             Cards[card1Index].IsEnabled = false;
             Cards[card2Index].IsEnabled = false;
+            
+            // also add 1 to PairsMade
+            PairsMade++;
         }
         
         // need to revert size of cards back to regular, no matter if cards are a match or not
@@ -108,6 +118,12 @@ public class EasyGameViewModel : GameViewModel
         
         // make delay 0 again
         FontSizeTransition.Delay = TimeSpan.Zero;
+        
+        // send some signal of game end when made all pairs
+        if (PairsMade == NumPairs)
+        {
+            
+        }
     }
     
     // add a timer updater?
