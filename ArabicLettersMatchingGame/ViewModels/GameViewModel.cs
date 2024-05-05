@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reactive;
+using System.Threading;
+using System.Threading.Tasks;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Services;
 using Avalonia.Animation;
@@ -18,6 +20,11 @@ namespace ArabicLettersMatchingGame.ViewModels;
 /// </summary>
 public abstract class GameViewModel : ViewModelBase
 {
+    protected GameViewModel()
+    {
+        RunRoundTimer().RunSynchronously();
+    }
+    
     // reference to MenuViewModel so can change view back to menu
     protected readonly MainMenuViewModel MenuView;
     
@@ -37,6 +44,7 @@ public abstract class GameViewModel : ViewModelBase
         );
         
     }
+    
     // flag if game is in practice mode or not
     public bool PracticeFlag { get; init; }
     
@@ -75,4 +83,24 @@ public abstract class GameViewModel : ViewModelBase
     /// </summary>
     /// <param name="i">The index of the Card/CardText in the list of cards/card texts.</param>
     protected abstract void PressCommandFunction(int i);
+
+
+    // the value of the timer of how long the round has lasted
+    public TimeOnly RoundTimer { get; set; } = TimeOnly.MinValue;
+
+    private async Task RunRoundTimer()
+    {
+        // keep the round timer updating until make all pairs
+        while (PairsMade < NumPairs)
+        {
+            // add 1s to RoundTimer
+            RoundTimer = RoundTimer.Add(OneSecond);
+            
+            // stop this function for 1s, so this loop is run about every 1s
+            await Task.Delay(1000);
+        }
+    }
+    
+    // one second TimeSpan, used for adding a second to the RoundTimer
+    private static readonly TimeSpan OneSecond = TimeSpan.FromSeconds(1);
 }

@@ -16,7 +16,7 @@
         
         <!-- Top row will have timer telling current time take for game -->
         <!-- For now a test of viewmodel -->
-        <TextBlock Grid.Row="0" Text="{Binding PracticeFlag}"
+        <TextBlock Grid.Row="0" Text="{Binding RoundTimer.Second}"
                    FontSize="40" TextAlignment="Center" HorizontalAlignment="Center"
                    Padding="30"/>
                    
