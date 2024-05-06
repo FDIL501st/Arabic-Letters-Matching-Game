@@ -43,6 +43,9 @@ public class EasyGameViewModel : GameViewModel
         }
         
         GameArea = new EasyGameAreaDataTemplate(Cards, PressCardCommand).GameArea;
+        
+        // start timer
+        Timer.Start();
     }
     
     protected override void PressCommandFunction(int i)

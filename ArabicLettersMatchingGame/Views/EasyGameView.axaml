@@ -10,13 +10,13 @@
     
     <!-- Grid with 3 rows -->
     <Grid Name="EasyGameGrid" RowDefinitions="*, 3*, *">
-        <!-- Bottom row has return to menu button -->
+        <!-- Bottom row has the return to menu button -->
         <Button Grid.Row="2" HorizontalAlignment="Center"
                 Command="{Binding ClickReturn}">Return to Menu</Button>
         
         <!-- Top row will have timer telling current time take for game -->
         <!-- For now a test of viewmodel -->
-        <TextBlock Grid.Row="0" Text="{Binding RoundTimer.Second}"
+        <TextBlock Grid.Row="0" Text="{Binding RoundTimer}"
                    FontSize="40" TextAlignment="Center" HorizontalAlignment="Center"
                    Padding="30"/>
                    
