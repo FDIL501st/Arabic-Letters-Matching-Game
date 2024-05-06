@@ -26,10 +26,6 @@ public abstract class GameAreaDataTemplate(List<Button> buttons, ReactiveCommand
     
     // holds the command for the buttons for each card
     private ReactiveCommand<int, Unit> ButtonCommands { get; } = buttonCommand;
-
-    // the transition for button font size
-
-
     
     protected abstract Grid CreateGameArea(List<CardText> cardTexts);
     
@@ -84,6 +80,9 @@ public abstract class GameAreaDataTemplate(List<Button> buttons, ReactiveCommand
             Margin = Thickness.Parse(marginThickness),
             FontSize = (fontSize == 0) ? CardFontSize.Hidden : fontSize,
             FontWeight = FontWeight.Regular,
+            BorderBrush = Brushes.Black,
+            BorderThickness = Thickness.Parse("0"),
+            // have no borders, do get changed when we go into practice mode
             Transitions = new Transitions
             {
                 // view model will add transition

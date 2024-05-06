@@ -4,6 +4,7 @@ using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Models.Constants;
 using ArabicLettersMatchingGame.Services;
 using ArabicLettersMatchingGame.Views.DataTemplates;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 
@@ -56,8 +57,16 @@ public class EasyGameViewModel : GameViewModel
         SelectedCards.Add(i);
         
         
-        // if in practice mode, just make size larger, otherwise visible
-        Cards[i].FontSize = (PracticeFlag) ? CardFontSize.Easy + 20 : CardFontSize.Easy;
+        // if in practice mode, add a border instead of making font visible
+        if (PracticeFlag)
+        {
+            // use hard coded value of thickness 5
+            Cards[i].BorderThickness = Thickness.Parse("5");
+        }
+        else
+        {
+            Cards[i].FontSize = CardFontSize.Easy;
+        }
         
         switch (SelectedCards.Count)
         {
@@ -109,11 +118,11 @@ public class EasyGameViewModel : GameViewModel
             PairsMade++;
         }
         
-        // need to revert size of cards back to regular, no matter if cards are a match or not
+        // need to revert adding of border
         if (PracticeFlag)
         {
-            Cards[card1Index].FontSize = CardFontSize.Easy;
-            Cards[card2Index].FontSize = CardFontSize.Easy;
+            Cards[card1Index].BorderThickness = Thickness.Parse("0");
+            Cards[card2Index].BorderThickness = Thickness.Parse("0");
         }
         
         // remove all cards from Selected
@@ -121,12 +130,6 @@ public class EasyGameViewModel : GameViewModel
         
         // make delay 0 again
         FontSizeTransition.Delay = TimeSpan.Zero;
-        
-        // send some signal of game end when made all pairs
-        if (PairsMade == NumPairs)
-        {
-            
-        }
     }
     
     // add a timer updater?
