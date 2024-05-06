@@ -89,7 +89,14 @@ public abstract class GameViewModel : ViewModelBase
     protected abstract void PressCommandFunction(int i);
     
     // the value of the timer of how long the round has lasted
-    public RoundTimer RoundTimer { get; set; } = new ();
+    private RoundTimer _roundTimer = new();
+
+    public RoundTimer RoundTimer
+    {
+        get => _roundTimer;
+
+        set => this.RaiseAndSetIfChanged(ref _roundTimer, value);
+    }
     
     private void TimerElapsed(object? sender, ElapsedEventArgs e)
     {
@@ -98,6 +105,8 @@ public abstract class GameViewModel : ViewModelBase
         // will update the RoundTimer if not yet found all pairs
         if (PairsMade < NumPairs)
         {
+            // update the property, not the backing field so we call the RaiseAndSetIfChanged 
+            // so Avalonia knows to update the UI
             RoundTimer = RoundTimer.AddOneSecondToTimer();
         }
         else
