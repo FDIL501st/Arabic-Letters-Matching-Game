@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reactive;
 using System.Timers;
 using ArabicLettersMatchingGame.Models;
@@ -87,18 +88,8 @@ public abstract class GameViewModel : ViewModelBase
     /// <param name="i">The index of the Card/CardText in the list of cards/card texts.</param>
     protected abstract void PressCommandFunction(int i);
     
-    /// <summary>
-    /// The condition to keep the timer running.
-    /// Returns true as long as number of pairs made is less than the number of pairs to make.
-    /// </summary>
-    /// <returns>Returns true if the timer needs to keep running. False otherwise.</returns>
-    protected bool TimerRunCondition()
-    {
-        return PairsMade < NumPairs;
-    }
-    
     // the value of the timer of how long the round has lasted
-    public RoundTimer RoundTimer { get; } = new RoundTimer();
+    public RoundTimer RoundTimer { get; set; } = new ();
     
     private void TimerElapsed(object? sender, ElapsedEventArgs e)
     {
@@ -107,7 +98,7 @@ public abstract class GameViewModel : ViewModelBase
         // will update the RoundTimer if not yet found all pairs
         if (PairsMade < NumPairs)
         {
-            RoundTimer.UpdateTimer();
+            RoundTimer = RoundTimer.AddOneSecondToTimer();
         }
         else
         {

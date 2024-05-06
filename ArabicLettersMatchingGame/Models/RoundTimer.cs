@@ -7,15 +7,23 @@ namespace ArabicLettersMatchingGame.Models;
 /// Only a class to override the toString method.
 /// Doesn't actually run a timer or update itself.
 /// </summary>
-public sealed class RoundTimer()
+public sealed class RoundTimer
 {
     /// <summary>
     /// The value of the timer. Is updated every second.
     /// </summary>
-    private TimeSpan _roundLength = TimeSpan.Zero;
+    private readonly TimeSpan _roundLength = TimeSpan.Zero;
 
     public TimeSpan RoundLength => _roundLength;
 
+    public RoundTimer(TimeSpan? roundLength = null)
+    {
+        if (roundLength is not null)
+        {
+            _roundLength = roundLength.Value;
+        }
+    }
+    
     /// <summary>
     /// One second TimeSpan. Used within the class to add 1s to the roundLength.
     /// </summary>
@@ -29,19 +37,19 @@ public sealed class RoundTimer()
     }
     
     /// <summary>
-    /// Adds 1s to the timer.
+    /// Returns a new RoundTimer with 1s plus the current one. Current one is unchanged.
     /// </summary>
-    public void UpdateTimer()
+    public RoundTimer AddOneSecondToTimer()
     {
         try
         {
-            _roundLength = _roundLength.Add(OneSecond);
+            return new RoundTimer(_roundLength.Add(OneSecond));
         }
         catch (OverflowException)
         {
             // can occur when round lasts for more than 1 day
             // for now will just reset timer back to 0
-            _roundLength = TimeSpan.Zero;
+            return new RoundTimer(TimeSpan.Zero);
 
             // maybe in future can deal with tracking days in timer as well?
             // probably not going to happen
