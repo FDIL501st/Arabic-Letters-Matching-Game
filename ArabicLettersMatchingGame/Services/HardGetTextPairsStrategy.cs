@@ -21,7 +21,7 @@ public class HardGetTextPairsStrategy: GetTextPairsStrategy
             indexArray.Add(i);
         
         // go and get the random words and fill up textPairs
-        for (var i = 0; i < lettersLen; i++)
+        for (var i = 0; i < numPairs; i++)
         {
             // get a random index from indexArray
             var index = Rng.Next(0, indexArray.Count);
