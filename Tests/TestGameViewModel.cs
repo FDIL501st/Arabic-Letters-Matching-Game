@@ -16,4 +16,10 @@ public class TestGameViewModel
         // test number of card texts is actually Easy*Easy
         Assert.Equal(Easy*Easy, easyGameVm.CardTexts.Count);
     }
+
+    [Fact]
+    public void TestHardGameCardTextsCount()
+    {
+        // test number of card texts is Hard*Hard
+    }
 }

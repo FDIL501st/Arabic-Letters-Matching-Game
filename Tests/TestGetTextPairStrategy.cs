@@ -42,7 +42,7 @@ public class TestGetTextPairStrategy
             // which should be Easy*Easy/2
             Assert.Equal(Easy*Easy/2, randomPairs.Count);
         
-            // check each TextPair is not null
+            // check each TextPair is not null or empty
             foreach (var (text1, text2) in randomPairs)
             {
                 Assert.NotNull(text1);
@@ -52,7 +52,20 @@ public class TestGetTextPairStrategy
                 Assert.NotEqual("", text2);
             }
         }
+        
+        // attempt to improve unit test, as this test is poorly made
     }
+
+    private readonly HardGetTextPairsStrategy _testHard = new();
+
+    [Fact]
+    public void TestHardGetRandomPairsCount()
+    {
+        var randomPairs = _testHard.GetRandomPairs();
+        Assert.Equal(Hard*Hard/2, randomPairs.Count);
+    }
+    
+    
 }
 
 /*
