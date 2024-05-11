@@ -9,7 +9,7 @@ namespace ArabicLettersMatchingGame.Services;
 public abstract class GetTextPairsStrategy
 {
     // Need to move 3 folders up from debug C# executable
-    private readonly string _jsonFilePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../Assets/ArabicScipt.json"));
+    private readonly string _jsonFilePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../../Services/ArabicScipt.json"));
     protected JsonElement JsonRoot;
     
     // constructor to give value to JsonRoot, make protected as don't want to give ability to construct abstract class
