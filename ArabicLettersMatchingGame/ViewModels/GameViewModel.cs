@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Reactive;
 using System.Timers;
 using ArabicLettersMatchingGame.Models;
+using ArabicLettersMatchingGame.Models.Constants;
 using ArabicLettersMatchingGame.Services;
+using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
 using Avalonia.Controls;
@@ -18,7 +19,7 @@ namespace ArabicLettersMatchingGame.ViewModels;
 /// Parent class for GameViewModels.
 /// Provides common constructor and variables.
 /// </summary>
-public abstract class GameViewModel : ViewModelBase
+public abstract class GameViewModel : ViewModelBase, IDisposable
 {
     // reference to MenuViewModel so can change view back to menu
     protected readonly MainMenuViewModel MenuView;
@@ -32,7 +33,7 @@ public abstract class GameViewModel : ViewModelBase
     // the command for pressing a card 
     protected ReactiveCommand<int, Unit> PressCardCommand { get; }
 
-    protected Timer Timer;
+    protected readonly Timer Timer;
     
     /// <summary>
     /// Parent class for GameViewModels.
@@ -61,7 +62,7 @@ public abstract class GameViewModel : ViewModelBase
     public abstract int NumPairs { get; init; }
     
     // numbers of pairs made, initially start at 0
-    protected int PairsMade { get; set; } = 0;
+    private int PairsMade { get; set; } = 0;
     
     // list of buttons that are used for the game area
     public abstract List<Button> Cards { get; init; }
@@ -80,13 +81,94 @@ public abstract class GameViewModel : ViewModelBase
     
     
     // list that holds index selected cards
-    protected readonly List<int> SelectedCards = new(2);
+    private readonly List<int> _selectedCards = new(2);
 
     /// <summary>
     /// The function that gets executed when a card gets pressed.
     /// </summary>
     /// <param name="i">The index of the Card/CardText in the list of cards/card texts.</param>
-    protected abstract void PressCommandFunction(int i);
+    private void PressCommandFunction(int i)
+    {
+        // Console.WriteLine($"Press card: {Cards[i].Content}");
+        
+        // first need to add card to selected, then make font visible
+        _selectedCards.Add(i);
+        
+        
+        // if in practice mode, add a border instead of making font visible
+        if (PracticeFlag)
+        {
+            // use hard coded value of thickness 5
+            Cards[i].BorderThickness = Thickness.Parse("5");
+        }
+        else
+        {
+            Cards[i].FontSize = CardFontSize.Easy;
+        }
+        
+        switch (_selectedCards.Count)
+        {
+            // if at the moment only selected 1 card, wait for second card to be selected
+            case 1:
+            case > 2:
+                return;
+            // both cases where 1 card or more than 1 card, stop 
+        }
+        
+        // second card selected
+        
+        // add a check so double-clicking the same card does nothing
+        if (_selectedCards[0] == _selectedCards[1])
+        {
+            _selectedCards.RemoveAt(1);
+            return;
+        }
+        
+        // get index of selected cards
+        var card1Index = _selectedCards[0];
+        var card2Index = _selectedCards[1];
+        
+        // add delay
+        FontSizeTransition.Delay = TimeSpan.FromSeconds(1);
+        
+        // if both cards selected are not a match, simply make font small again after a bit
+        if (CardTexts[card1Index].Id != CardTexts[card2Index].Id)
+        {
+            // only make hidden not in practice mode
+            if (!PracticeFlag)
+            {
+                // make cards hidden again as no match
+                Cards[card1Index].FontSize = CardFontSize.Hidden;
+                Cards[card2Index].FontSize = CardFontSize.Hidden;
+            }
+            
+            // can't use && and move condition to outer if as need else to run
+            // no matter if we are in practice mode or not
+        }
+        
+        // both cards are a match, so disable cards
+        else
+        {
+            Cards[card1Index].IsEnabled = false;
+            Cards[card2Index].IsEnabled = false;
+            
+            // also add 1 to PairsMade
+            PairsMade++;
+        }
+        
+        // need to revert adding of border
+        if (PracticeFlag)
+        {
+            Cards[card1Index].BorderThickness = Thickness.Parse("0");
+            Cards[card2Index].BorderThickness = Thickness.Parse("0");
+        }
+        
+        // remove all cards from Selected
+        _selectedCards.RemoveAll((_) => true);
+        
+        // make delay 0 again
+        FontSizeTransition.Delay = TimeSpan.Zero;
+    }
     
     // the value of the timer of how long the round has lasted
     private RoundTimer _roundTimer = new();

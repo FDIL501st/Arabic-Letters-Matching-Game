@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Models.Constants;
 using ArabicLettersMatchingGame.Services;
 using ArabicLettersMatchingGame.Views.DataTemplates;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 
@@ -48,92 +46,7 @@ public class EasyGameViewModel : GameViewModel
         // start timer
         Timer.Start();
     }
-    
-    protected override void PressCommandFunction(int i)
-    {
-        // Console.WriteLine($"Press card: {Cards[i].Content}");
-        
-        // first need to add card to selected, then make font visible
-        SelectedCards.Add(i);
-        
-        
-        // if in practice mode, add a border instead of making font visible
-        if (PracticeFlag)
-        {
-            // use hard coded value of thickness 5
-            Cards[i].BorderThickness = Thickness.Parse("5");
-        }
-        else
-        {
-            Cards[i].FontSize = CardFontSize.Easy;
-        }
-        
-        switch (SelectedCards.Count)
-        {
-            // if at the moment only selected 1 card, wait for second card to be selected
-            case 1:
-            case > 2:
-                return;
-            // both cases where 1 card or more than 1 card, stop 
-        }
-        
-        // second card selected
-        
-        // add a check so double-clicking the same card does nothing
-        if (SelectedCards[0] == SelectedCards[1])
-        {
-            SelectedCards.RemoveAt(1);
-            return;
-        }
-        
-        // get index of selected cards
-        var card1Index = SelectedCards[0];
-        var card2Index = SelectedCards[1];
-        
-        // add delay
-        FontSizeTransition.Delay = TimeSpan.FromSeconds(1);
-        
-        // if both cards selected are not a match, simply make font small again after a bit
-        if (CardTexts[card1Index].Id != CardTexts[card2Index].Id)
-        {
-            // only make hidden not in practice mode
-            if (!PracticeFlag)
-            {
-                // make cards hidden again as no match
-                Cards[card1Index].FontSize = CardFontSize.Hidden;
-                Cards[card2Index].FontSize = CardFontSize.Hidden;
-            }
-            
-            // can't use && and move condition to outer if as need else to run
-            // no matter if we are in practice mode or not
-        }
-        
-        // both cards are a match, so disable cards
-        else
-        {
-            Cards[card1Index].IsEnabled = false;
-            Cards[card2Index].IsEnabled = false;
-            
-            // also add 1 to PairsMade
-            PairsMade++;
-        }
-        
-        // need to revert adding of border
-        if (PracticeFlag)
-        {
-            Cards[card1Index].BorderThickness = Thickness.Parse("0");
-            Cards[card2Index].BorderThickness = Thickness.Parse("0");
-        }
-        
-        // remove all cards from Selected
-        SelectedCards.RemoveAll((_) => true);
-        
-        // make delay 0 again
-        FontSizeTransition.Delay = TimeSpan.Zero;
-    }
-    
-    // add a timer updater?
-    
+
     /// <summary>
     /// When click return button, change view to menu view
     /// </summary>
