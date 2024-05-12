@@ -4,30 +4,37 @@ using static ArabicLettersMatchingGame.Models.Constants.GameBoardSizeNumber;
 
 namespace Tests;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class TestGetTextPairStrategy
 {
-    private readonly GetTextPairsStrategyTestChild _testChild = new();
-    
-    [Theory]
-    [InlineData(1, new [] { "ﺏ", "ﺑ", "ﺐ", "ﺒ" })]
-    [InlineData(-1, new [] {"ﺍ", "ﺎ"})]
-    [InlineData(40, new [] {"ﺓ", "ﺔ"})]
-    [InlineData(7, new [] {"ﺩ", "ﺪ"})]
-    [InlineData(26, new [] {"ﻭ", "ﻮ"})]
-    public void TestGetLetterArray(int i, string[] expected)
+    public class GetTextPairsStrategyProtectedFunctions
     {
-        Assert.Equal(_testChild.TestChildGetLetterArray(i), expected);
-    }
+        private readonly GetTextPairsStrategyTestChild _testChild = new();
     
-    // [Theory]
-    // [InlineData(1, new [] { })]
-    // [InlineData(-1, new [] { })]
-    // [InlineData(40, new [] { })]
-    // public void TestGetWordArray(int i, string[] expected)
-    // {
-    //     Assert.Equal(_testChild.TestChildGetWordArray(i), expected);
-    // } 
+        [Theory]
+        [InlineData(1, new [] { "ﺏ", "ﺑ", "ﺐ", "ﺒ" })]
+        [InlineData(-1, new [] {"ﺍ", "ﺎ"})]
+        [InlineData(40, new [] {"ﺓ", "ﺔ"})]
+        [InlineData(7, new [] {"ﺩ", "ﺪ"})]
+        [InlineData(26, new [] {"ﻭ", "ﻮ"})]
+        public void TestGetLetterArray(int i, string[] expected)
+        {
+            Assert.Equal(_testChild.TestChildGetLetterArray(i), expected);
+        }
+        
+        [Theory]
+        [InlineData(-1, new [] {"لا", "ل ا"})]
+        [InlineData(1, new [] {"من", "م ن"})]
+        [InlineData(19, new [] {"هذه", "ه ذ ه"})]
+        [InlineData(40, new [] {"لي", "ل ي"})]
+        [InlineData(47, new [] {"هيا", "ه ي ا"})]
+        public void TestGetWordArray(int i, string[] expected)
+        {
+            Assert.Equal(_testChild.TestChildGetWordArray(i), expected);
+        } 
+    }
 
+    
     public class EasyGame
     {
         private readonly EasyGetTextPairsStrategy _testEasy = new ();

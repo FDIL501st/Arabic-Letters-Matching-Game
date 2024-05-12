@@ -19,13 +19,16 @@ public class HardGetTextPairsStrategy: GetTextPairsStrategy
         var indexArray = new List<int>(lettersLen);
         for (var i = 0; i < lettersLen; i++) 
             indexArray.Add(i);
+        // make an array where each element is the same as the index
+        // eg. [0, 1, 2, 3]
+        
         
         // go and get the random words and fill up textPairs
         for (var i = 0; i < numPairs; i++)
         {
             // get a random index from indexArray
             var index = Rng.Next(0, indexArray.Count);
-            var wordArray = GetLetterArray(indexArray.ElementAt(index));
+            var wordArray = GetWordArray(indexArray.ElementAt(index));
             // used index, so remove from indexArray
             indexArray.RemoveAt(index);
             
