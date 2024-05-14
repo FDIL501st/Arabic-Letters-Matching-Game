@@ -1,6 +1,6 @@
 using System;
 
-namespace ArabicLettersMatchingGame.Models;
+namespace ArabicLettersMatchingGame.Models.GameTimer;
 
 /// <summary>
 /// Represents the timer of how long a round has lasted.

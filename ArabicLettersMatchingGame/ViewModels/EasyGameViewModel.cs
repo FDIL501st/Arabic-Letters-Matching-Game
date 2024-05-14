@@ -44,14 +44,7 @@ public class EasyGameViewModel : GameViewModel
         GameArea = new EasyGameAreaDataTemplate(Cards, PressCardCommand).GameArea;
         
         // start timer
-        Timer.Start();
+        Timer.StartTimer();
     }
-
-    /// <summary>
-    /// When click return button, change view to menu view
-    /// </summary>
-    public void ClickReturn()
-    {
-        MenuView.Window.ContentViewModel = MenuView;
-    }
+    
 }

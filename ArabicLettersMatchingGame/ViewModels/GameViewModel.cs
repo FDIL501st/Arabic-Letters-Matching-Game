@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Timers;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Models.Constants;
+using ArabicLettersMatchingGame.Models.GameTimer;
 using ArabicLettersMatchingGame.Services;
 using Avalonia;
 using Avalonia.Animation;
@@ -19,10 +20,10 @@ namespace ArabicLettersMatchingGame.ViewModels;
 /// Parent class for GameViewModels.
 /// Provides common constructor and variables.
 /// </summary>
-public abstract class GameViewModel : ViewModelBase, IDisposable
+public abstract class GameViewModel : ViewModelBase
 {
     // reference to MenuViewModel so can change view back to menu
-    protected readonly MainMenuViewModel MenuView;
+    private readonly MainMenuViewModel _menuView;
         
     // flag if game is in practice mode or not
     protected bool PracticeFlag { get; init; }
@@ -33,7 +34,7 @@ public abstract class GameViewModel : ViewModelBase, IDisposable
     // the command for pressing a card 
     protected ReactiveCommand<int, Unit> PressCardCommand { get; }
 
-    protected readonly Timer Timer;
+    protected readonly OneSecondTimer Timer;
     
     /// <summary>
     /// Parent class for GameViewModels.
@@ -42,20 +43,15 @@ public abstract class GameViewModel : ViewModelBase, IDisposable
     protected GameViewModel(MainMenuViewModel menuView, GetTextPairsStrategy getTextPairService, bool practiceFlag = false)
     {
         PracticeFlag = practiceFlag;
-        MenuView = menuView;
+        _menuView = menuView;
         CardTexts = CardText.GenerateGameCardTexts(getTextPairService.GetRandomPairs());
         
         // create command for pressing card
         PressCardCommand = ReactiveCommand.Create(
             (int num) => PressCommandFunction(num)
         );
-        
-        // start a timer that triggers an event every 1s
-        Timer = new Timer(1000); // 1000 milliseconds = 1 second
-        Timer.Elapsed += TimerElapsed; // Attach the event handler
-        Timer.AutoReset = true; // Make the timer keep triggering an event (not just occur once)
-        // timer must be started in implementation classes
-        // NumPairs, which is used for checking to update pairs is not set in this class
+
+        Timer = new OneSecondTimer(TimerElapsed);
     }
     
     // max number of pairs to make 
@@ -195,14 +191,15 @@ public abstract class GameViewModel : ViewModelBase, IDisposable
         {
             // stop the timer, at the moment only timer is _timer
             // so no need to check who the sender of the event is
-            Timer.Stop();
             Timer.Dispose();
         }
     }
 
-    public void Dispose()
+    /// <summary>
+    /// When click return button, change view to menu view
+    /// </summary>
+    public void ClickReturn()
     {
-        Timer.Stop();
-        Timer.Dispose();
+        _menuView.Window.ContentViewModel = _menuView;
     }
 }
