@@ -1,12 +1,11 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:ArabicLettersMatchingGame.ViewModels"
-             x:CompileBindings="True"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="800"
-             x:Class="ArabicLettersMatchingGame.Views.EasyGameView"
-             x:DataType="vm:EasyGameViewModel">
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ArabicLettersMatchingGame.Views.HardGameView"
+             x:DataType="vm:HardGameViewModel">
     
     <!-- Grid with 3 rows -->
     <Grid Name="EasyGameGrid" RowDefinitions="*, 3*, *">
@@ -21,10 +20,10 @@
                    
 
         <!-- Middle row will have actual cards -->
-         <ContentControl Grid.Row="1" Content="{Binding CardTexts}" 
-                         ContentTemplate="{Binding GameArea}"
-                         Margin="400, 0, 400, 0">
-         </ContentControl>
+        <ContentControl Grid.Row="1" Content="{Binding CardTexts}" 
+                        ContentTemplate="{Binding GameArea}"
+                        Margin="400, 0, 400, 0">
+        </ContentControl>
     </Grid>
     
 </UserControl>

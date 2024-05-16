@@ -19,7 +19,7 @@ namespace ArabicLettersMatchingGame.Views.DataTemplates;
 
 public abstract class GameAreaDataTemplate(List<Button> buttons, ReactiveCommand<int, Unit> buttonCommand)
 {
-    public abstract FuncDataTemplate<List<CardText>> GameArea { get; }
+    public abstract FuncDataTemplate<List<CardText>> GameArea { get; init; }
     
     // holds all buttons, initialized in child class as number of buttons not known
     private List<Button> Buttons { get; } = buttons;
@@ -43,21 +43,10 @@ public abstract class GameAreaDataTemplate(List<Button> buttons, ReactiveCommand
         // Populate the grid with TextBlocks bound to each CardText in cardTexts
         for (var i = 0; i < cardTexts.Count; i++)
         {
-            // var card = new Button()
-            // {
-            //     HorizontalAlignment = HorizontalAlignment.Stretch,
-            //     VerticalAlignment = VerticalAlignment.Stretch,
-            //     HorizontalContentAlignment = HorizontalAlignment.Center,
-            //     VerticalContentAlignment = VerticalAlignment.Center, 
-            //     Margin = Thickness.Parse("7"),
-            //     Command = ButtonCommands,
-            //     CommandParameter = i
-            // };
             var card = Buttons[i];
             card.Command = ButtonCommands;
             card.CommandParameter = i;
             card.Bind(ContentControl.ContentProperty, new Binding(nameof(CardText.Text)) { Source = cardTexts[i] });
-            
             
             Grid.SetColumn(card, i % numSide);
             Grid.SetRow(card, i / numSide);

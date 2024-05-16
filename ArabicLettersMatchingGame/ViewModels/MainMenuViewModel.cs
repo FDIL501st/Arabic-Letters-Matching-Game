@@ -22,5 +22,14 @@ public class MainMenuViewModel(MainWindowViewModel window) : ViewModelBase
     {
         Window.ContentViewModel = new EasyGameViewModel(this, true);
     }
-    
+
+    public void ClickHard()
+    {
+        Window.ContentViewModel = new HardGameViewModel(this);
+    }
+
+    public void ClickHardPractice()
+    {
+        Window.ContentViewModel = new HardGameViewModel(this, true);
+    }
 }

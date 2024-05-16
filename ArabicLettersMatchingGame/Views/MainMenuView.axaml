@@ -14,10 +14,22 @@ bottom 1/4 empty whitespace-->
 <Grid RowDefinitions="*,2*,*">
     <TextBlock Grid.Row="0" Margin="50" TextAlignment="Center">Choose a Difficulty!</TextBlock>
     <StackPanel Grid.Row="1" Margin="50" HorizontalAlignment="Center">
-        <Button Margin="5" HorizontalAlignment="Stretch" Command="{Binding ClickEasyPractice}">Practice Easy</Button>
-        <Button Margin="5" HorizontalAlignment="Stretch" Command="{Binding ClickEasy}">Easy</Button>
-        <Button Margin="5" HorizontalAlignment="Stretch">Medium</Button>
-        <Button Margin="5" HorizontalAlignment="Stretch">Hard</Button>
+        <Button Margin="5" HorizontalAlignment="Stretch" 
+                Command="{Binding ClickEasyPractice}">
+                Practice Easy
+        </Button>
+        <Button Margin="5" HorizontalAlignment="Stretch" 
+                Command="{Binding ClickEasy}">
+                Easy
+        </Button>
+        <Button Margin="5" HorizontalAlignment="Stretch" 
+                Command="{Binding ClickHardPractice}">
+                Practice Hard
+        </Button>
+        <Button Margin="5" HorizontalAlignment="Stretch" 
+                Command="{Binding ClickHard}">
+                Hard
+        </Button>
     </StackPanel>
 </Grid>
 </UserControl>

@@ -1,17 +1,16 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reactive;
-using Avalonia.Controls.Templates;
 using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Models.Constants;
 using Avalonia.Controls;
+using Avalonia.Controls.Templates;
 using ReactiveUI;
-
 
 namespace ArabicLettersMatchingGame.Views.DataTemplates;
 
-public class EasyGameAreaDataTemplate : GameAreaDataTemplate
+public class HardGameAreaDataTemplate: GameAreaDataTemplate
 {
-    public EasyGameAreaDataTemplate(List<Button> buttons, ReactiveCommand<int, Unit> buttonCommand) : base(buttons, buttonCommand)
+    public HardGameAreaDataTemplate(List<Button> buttons, ReactiveCommand<int, Unit> buttonCommand) : base(buttons, buttonCommand)
     {
         GameArea = new FuncDataTemplate<List<CardText>>(_ => true, CreateGameArea);
     }
@@ -20,6 +19,6 @@ public class EasyGameAreaDataTemplate : GameAreaDataTemplate
 
     protected override Grid CreateGameArea(List<CardText> cardTexts)
     {
-        return  CreateGrid(cardTexts, GameBoardSizeNumber.Easy);
+        return CreateGrid(cardTexts, GameBoardSizeNumber.Hard);
     }
 }
