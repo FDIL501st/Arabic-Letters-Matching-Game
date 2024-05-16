@@ -10,4 +10,6 @@ public static class CardFontSize
     public static int Hidden => 1;
     
     public static int Easy => 40;
+
+    public static int Hard => 30;
 }

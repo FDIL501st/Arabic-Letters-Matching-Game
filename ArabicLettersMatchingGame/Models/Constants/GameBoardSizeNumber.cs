@@ -13,5 +13,5 @@ public static class GameBoardSizeNumber
 
     public static int Medium => 5;
 
-    public static int Hard => 6;
+    public static int Hard => 4;
 }
