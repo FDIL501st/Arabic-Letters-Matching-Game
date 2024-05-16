@@ -6,6 +6,7 @@ using ArabicLettersMatchingGame.Models;
 using ArabicLettersMatchingGame.Models.Constants;
 using ArabicLettersMatchingGame.Models.GameTimer;
 using ArabicLettersMatchingGame.Services;
+using ArabicLettersMatchingGame.Views.DataTemplates;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
@@ -26,7 +27,7 @@ public abstract class GameViewModel : ViewModelBase
     private readonly MainMenuViewModel _menuView;
         
     // flag if game is in practice mode or not
-    protected bool PracticeFlag { get; init; }
+    protected bool PracticeFlag { get; }
     
     // list of CardTexts, these are what text on cards in game views bind to
     public List<CardText> CardTexts { get; }
@@ -55,20 +56,40 @@ public abstract class GameViewModel : ViewModelBase
     }
     
     // max number of pairs to make 
-    public abstract int NumPairs { get; init; }
+    public abstract int NumPairs { get; protected set; }
     
-    // numbers of pairs made, initially start at 0
-    private int PairsMade { get; set; } = 0;
+    // numbers of pairs made, initially start at 0 (auto default value is 0, no need to specify)
+    private int PairsMade { get; set; }
     
     // list of buttons that are used for the game area
-    public abstract List<Button> Cards { get; init; }
+    public abstract List<Button> Cards { get; protected set; }
     
     // data template that handles the game/cards
-    public abstract FuncDataTemplate<List<CardText>> GameArea { get; }
-    
+    public abstract FuncDataTemplate<List<CardText>> GameArea { get; protected set; }
+
+    protected List<Button> InitCards(int numCards, int maxFontSize)
+    {
+        // create card looks
+        var cards = new List<Button>(numCards);
+        for (var i = 0; i < numCards; i++)
+        {
+            if (!PracticeFlag)
+            {
+                cards.Add(GameAreaDataTemplate.CreateButton("7", 0));
+                cards[i].Transitions!.Add(FontSizeTransition);
+            }
+            else
+            {
+                // in practice mode, cards are not hidden
+                cards.Add(GameAreaDataTemplate.CreateButton("7", maxFontSize));
+            }
+        }
+
+        return cards;
+    }
     
     // transition for font size change
-    protected static readonly DoubleTransition FontSizeTransition = new()
+    private static readonly DoubleTransition FontSizeTransition = new()
     {
         Duration = TimeSpan.FromSeconds(1),
         Easing = new ExponentialEaseOut(),
