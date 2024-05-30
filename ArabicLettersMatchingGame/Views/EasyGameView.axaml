@@ -23,7 +23,9 @@
         <!-- Middle row will have actual cards -->
          <ContentControl Grid.Row="1" Content="{Binding CardTexts}" 
                          ContentTemplate="{Binding GameArea}"
-                         Margin="400, 0, 400, 0">
+                         Padding="20"
+                         Width="400"
+                         Height="400">
          </ContentControl>
     </Grid>
     
