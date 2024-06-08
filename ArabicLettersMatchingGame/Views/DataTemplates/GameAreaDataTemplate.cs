@@ -70,6 +70,7 @@ public abstract class GameAreaDataTemplate(List<Button> buttons, ReactiveCommand
             FontSize = (fontSize == 0) ? CardFontSize.Hidden : fontSize,
             FontWeight = FontWeight.Regular,
             BorderBrush = Brushes.Black,
+            Background = Brushes.Khaki,
             BorderThickness = Thickness.Parse("0"),
             // have no borders, do get changed when we go into practice mode
             Transitions = new Transitions

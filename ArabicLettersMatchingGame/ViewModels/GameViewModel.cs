@@ -137,11 +137,13 @@ public abstract class GameViewModel : ViewModelBase
         
         switch (_selectedCards.Count)
         {
-            // if at the moment only selected 1 card, wait for second card to be selected
-            case 1:
-            case > 2:
+            // continue if selected 2 cards
+            case 2:
+                break;
+            
+            default:
                 return;
-            // both cases where 1 card or more than 1 card, stop 
+            // selected first card (or more), do nothing more
         }
         
         // second card selected
@@ -192,7 +194,7 @@ public abstract class GameViewModel : ViewModelBase
             Cards[card2Index].BorderThickness = Thickness.Parse("0");
         }
         
-        // remove all cards from Selected
+        // remove all cards from Selected (this includes a third or more card)
         _selectedCards.RemoveAll((_) => true);
         
         // make delay 0 again
