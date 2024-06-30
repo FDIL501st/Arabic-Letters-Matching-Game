@@ -122,8 +122,7 @@ public abstract class GameViewModel : ViewModelBase
         
         // first need to add card to selected, then make font visible
         _selectedCards.Add(i);
-        
-        
+
         // if in practice mode, add a border instead of making font visible
         if (_practiceFlag)
         {
@@ -146,8 +145,6 @@ public abstract class GameViewModel : ViewModelBase
             // selected first card (or more), do nothing more
         }
         
-        // second card selected
-        
         // add a check so double-clicking the same card does nothing
         if (_selectedCards[0] == _selectedCards[1])
         {
@@ -155,6 +152,8 @@ public abstract class GameViewModel : ViewModelBase
             return;
         }
         
+        // second card selected
+
         // get index of selected cards
         var card1Index = _selectedCards[0];
         var card2Index = _selectedCards[1];
@@ -183,8 +182,17 @@ public abstract class GameViewModel : ViewModelBase
             Cards[card1Index].IsEnabled = false;
             Cards[card2Index].IsEnabled = false;
             
+            
             // also add 1 to PairsMade
             _pairsMade++;
+            
+            // and change background colour of pair
+            // this feature was added so user can tell mid way or end of game what were the pairs they matched
+            Cards[card1Index].Background = CardTexts[card1Index].MatchColour;
+            Cards[card2Index].Background = CardTexts[card2Index].MatchColour;
+            
+            // issue found is that when disabling button above, the background colour can no longer be changed
+            // stays gray
         }
         
         // need to revert adding of border
